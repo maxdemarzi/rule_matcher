@@ -48,7 +48,7 @@ public class Rules {
                     pathNode.setProperty("id", path);
 
                     String attribute = path.split("[!&]")[0];
-                    Node start = db.findNode(Labels.Attribute, "name", attribute);
+                    Node start = db.findNode(Labels.Attribute, "id", attribute);
 
                     Relationship inPath = start.createRelationshipTo(pathNode, RelationshipTypes.IN_PATH);
                     inPath.setProperty("path", path);
