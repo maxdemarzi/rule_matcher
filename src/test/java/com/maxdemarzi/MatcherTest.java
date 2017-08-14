@@ -24,14 +24,30 @@ public class MatcherTest {
     public void testMatcher() throws Exception {
         HTTP.Response response = HTTP.POST(neo4j.httpURI().resolve("/db/data/transaction/commit").toString(), QUERY1);
         int count = response.get("results").get(0).get("data").size();
-        assertEquals(1, count);
-        Map results = mapper.convertValue(response.get("results").get(0).get("data").get(0).get("row").get(0), Map.class);
-        assertEquals("(a1&a2) | (a3&a4)", results.get("id"));
+        assertEquals(2, count);
+        Map rule1 = mapper.convertValue(response.get("results").get(0).get("data").get(0).get("row").get(0), Map.class);
+        assertEquals("(a1&a2) | (a3&a4)", rule1.get("id"));
+        Map rule2 = mapper.convertValue(response.get("results").get(0).get("data").get(1).get("row").get(0), Map.class);
+        assertEquals("(a1&a2) | (a3& !a4)", rule2.get("id"));
     }
 
     private static final Map QUERY1 =
             singletonMap("statements", singletonList(singletonMap("statement",
                     "CALL com.maxdemarzi.matcher('max') yield node return node")));
+
+
+    @Test
+    public void testMatcherNotRule() throws Exception {
+        HTTP.Response response = HTTP.POST(neo4j.httpURI().resolve("/db/data/transaction/commit").toString(), QUERY2);
+        int count = response.get("results").get(0).get("data").size();
+        assertEquals(1, count);
+        Map rule2 = mapper.convertValue(response.get("results").get(0).get("data").get(0).get("row").get(0), Map.class);
+        assertEquals("(a1&a2) | (a3& !a4)", rule2.get("id"));
+    }
+
+    private static final Map QUERY2 =
+            singletonMap("statements", singletonList(singletonMap("statement",
+                    "CALL com.maxdemarzi.matcher('srikant') yield node return node")));
 
     private static final String MODEL_STATEMENT =
             "CREATE (user1:User {username:'max'})" +
@@ -70,6 +86,11 @@ public class MatcherTest {
                     "CREATE (a1)-[:IN_PATH {path:'a1&a2'}]->(p1)" +
                     "CREATE (a3)-[:IN_PATH {path:'a3&a4'}]->(p2)" +
                     "CREATE (p1)-[:HAS_RULE]->(r1)" +
-                    "CREATE (p2)-[:HAS_RULE]->(r1)";
+                    "CREATE (p2)-[:HAS_RULE]->(r1)" +
+                    "CREATE (r2:Rule {id:'(a1&a2) | (a3& !a4)'})" +
+                    "CREATE (p1)-[:HAS_RULE]->(r2)" +
+                    "CREATE (p3:Path {id:'a3!a4'})" +
+                    "CREATE (a3)-[:IN_PATH {path:'a3!a4'}]->(p3)" +
+                    "CREATE (p3)-[:HAS_RULE]->(r2)";
 
 }

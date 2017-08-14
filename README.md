@@ -62,8 +62,10 @@ Create some test data:
 
 Create a rule:
     
-    CALL com.maxdemarzi.rules.create('Rule 1', '(a1 & a2) | (a3 & a4)')
-    
+    CALL com.maxdemarzi.rules.create('Rule 1', '(a1 & a2) | (a3 & a4)')  # (a1 and a2) or (a3 and a4)
+    CALL com.maxdemarzi.rules.create('Rule 2', '(a1 & a2) | (a3 & !a4)') # (a1 and a2) or (a3 and NOT a4)
+
 Match a user:
 
     CALL com.maxdemarzi.matcher('max') yield node return node
+    CALL com.maxdemarzi.matcher('srikant') yield node return node
