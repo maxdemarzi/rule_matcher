@@ -50,7 +50,7 @@ public class RulesCreateTest {
 
     private static final Map QUERY3 =
             singletonMap("statements", singletonList(singletonMap("statement",
-                    "CALL com.maxdemarzi.rules.create('second rule', '(a1 & a2) | (a3 & a7)') yield value return value")));
+                    "CALL com.maxdemarzi.rules.create('third rule', '(a1 & a2) | (a3 & a7)') yield value return value")));
 
 
     private static final String MODEL_STATEMENT =
