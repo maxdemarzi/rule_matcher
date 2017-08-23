@@ -43,15 +43,26 @@ public class Rules {
             for (String path : boEx.getPathExpressions()) {
                 Node pathNode = db.findNode(Labels.Path, "id", path);
                 if (pathNode == null) {
-                    // Create the relationship from the first node in the path to the path node.
+                    // Create the path node if it doesn't already exist
                     pathNode = db.createNode(Labels.Path);
                     pathNode.setProperty("id", path);
 
-                    String attribute = path.split("[!&]")[0];
-                    Node start = db.findNode(Labels.Attribute, "id", attribute);
+                    // Create the attribute nodes if they don't already exist
+                    String[] attributes = path.split("[!&]");
+                    for (int i = 0; i < attributes.length; i++) {
+                        String attributeId = attributes[i];
+                        Node attribute = db.findNode(Labels.Attribute, "id", attributeId);
+                        if (attribute == null) {
+                            attribute = db.createNode(Labels.Attribute);
+                            attribute.setProperty("id", attributeId);
+                        }
+                        // Create the relationship between the lead attribute node to the path node
+                        if (i == 0) {
+                            Relationship inPath = attribute.createRelationshipTo(pathNode, RelationshipTypes.IN_PATH);
+                            inPath.setProperty("path", path);
+                        }
+                    }
 
-                    Relationship inPath = start.createRelationshipTo(pathNode, RelationshipTypes.IN_PATH);
-                    inPath.setProperty("path", path);
                 }
 
                 // Create a relationship between the path and the rule

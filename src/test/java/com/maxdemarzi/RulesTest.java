@@ -41,6 +41,18 @@ public class RulesTest {
             singletonMap("statements", singletonList(singletonMap("statement",
                     "CALL com.maxdemarzi.rules.create('second rule', '(a1 & a2) | (a3 & !a4)') yield value return value")));
 
+    @Test
+    public void testCreateRuleWithMissingAttributes() throws Exception {
+        HTTP.Response response = HTTP.POST(neo4j.httpURI().resolve("/db/data/transaction/commit").toString(), QUERY3);
+        String results = response.get("results").get(0).get("data").get(0).get("row").get(0).asText();
+        assertEquals("Rule (a1 & a2) | (a3 & a7) created.", results);
+    }
+
+    private static final Map QUERY3 =
+            singletonMap("statements", singletonList(singletonMap("statement",
+                    "CALL com.maxdemarzi.rules.create('second rule', '(a1 & a2) | (a3 & a7)') yield value return value")));
+
+
     private static final String MODEL_STATEMENT =
             "CREATE (user1:User {username:'max'})" +
             "CREATE (user2:User {username:'jeff'})" +
