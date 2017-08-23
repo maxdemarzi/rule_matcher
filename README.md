@@ -67,5 +67,10 @@ Create a rule:
 
 Match a user:
 
-    CALL com.maxdemarzi.matcher('max') yield node return node
-    CALL com.maxdemarzi.matcher('srikant') yield node return node
+    CALL com.maxdemarzi.match.user('max') yield node return node
+    CALL com.maxdemarzi.match.user('srikant') yield node return node
+
+Match attributes:
+
+    CALL com.maxdemarzi.match.attributes(['a1','a2']) yield node return node
+    CALL com.maxdemarzi.match.attributes(['a1','a3']) yield node return node

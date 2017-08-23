@@ -12,7 +12,7 @@ import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
 import static junit.framework.TestCase.assertEquals;
 
-public class MatcherTest {
+public class MatchAttributesTest {
     private static final ObjectMapper mapper = new ObjectMapper();
 
     @Rule
@@ -33,7 +33,7 @@ public class MatcherTest {
 
     private static final Map QUERY1 =
             singletonMap("statements", singletonList(singletonMap("statement",
-                    "CALL com.maxdemarzi.matcher('max') yield node return node")));
+                    "CALL com.maxdemarzi.match.attributes(['a1','a2']) yield node return node")));
 
 
     @Test
@@ -47,7 +47,7 @@ public class MatcherTest {
 
     private static final Map QUERY2 =
             singletonMap("statements", singletonList(singletonMap("statement",
-                    "CALL com.maxdemarzi.matcher('srikant') yield node return node")));
+                    "CALL com.maxdemarzi.match.attributes(['a1','a3']) yield node return node")));
 
     private static final String MODEL_STATEMENT =
             "CREATE (user1:User {username:'max'})" +
