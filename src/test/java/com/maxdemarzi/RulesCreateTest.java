@@ -11,7 +11,7 @@ import static java.util.Collections.singletonList;
 import static java.util.Collections.singletonMap;
 import static junit.framework.TestCase.assertEquals;
 
-public class RulesTest {
+public class RulesCreateTest {
 
     @Rule
     public final Neo4jRule neo4j = new Neo4jRule()

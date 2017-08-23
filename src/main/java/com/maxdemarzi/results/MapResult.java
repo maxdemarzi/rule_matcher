@@ -1,20 +1,15 @@
 package com.maxdemarzi.results;
 
-import org.neo4j.graphdb.Path;
-
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 
 public class MapResult {
     private static final MapResult EMPTY = new MapResult(Collections.emptyMap());
-    public final Map<String, Object> value;
+    public final Map<String, Set<String>> value;
 
-    public MapResult(Map<String, Object> value) {
+    public MapResult(Map<String, Set<String>> value) {
         this.value = value;
-    }
-
-    public MapResult(Path path) {
-        this.value = path.endNode().getAllProperties();
     }
 
     public static MapResult empty() {

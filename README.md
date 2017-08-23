@@ -74,3 +74,8 @@ Match attributes:
 
     CALL com.maxdemarzi.match.attributes(['a1','a2']) yield node return node
     CALL com.maxdemarzi.match.attributes(['a1','a3']) yield node return node
+
+
+See if attributes satisfy a rule:
+
+    CALL com.maxdemarzi.rules.satisfy('(a1 & a2) | (a3 & !a4)', ['a1', 'a4']) yield value return value
